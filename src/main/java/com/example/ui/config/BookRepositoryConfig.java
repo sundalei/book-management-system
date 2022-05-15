@@ -1,9 +1,8 @@
 package com.example.ui.config;
 
+import com.example.ui.repository.BookRepository;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
@@ -13,7 +12,7 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories
+@EnableMongoRepositories(basePackageClasses = BookRepository.class)
 public class BookRepositoryConfig extends AbstractMongoClientConfiguration {
 
     @Override
@@ -31,10 +30,7 @@ public class BookRepositoryConfig extends AbstractMongoClientConfiguration {
     public MongoClient mongoClient() {
         return MongoClients.create(
             MongoClientSettings.builder()
-            .applyConnectionString(new ConnectionString("mongodb+srv://analytics.zp8ia.mongodb.net/"))
-            .credential(MongoCredential.createCredential("analytics", "bookstore", "analytics-password".toCharArray()))
-            .retryWrites(true)
-            .writeConcern(WriteConcern.MAJORITY)
+            .applyConnectionString(new ConnectionString("mongodb://localhost:27017"))
             .build());
 
     }
